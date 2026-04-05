@@ -1,5 +1,8 @@
+from typing import Any, List
+
+
 class Node:
-    def __init__(self, key, value):
+    def __init__(self, key: Any, value: Any) -> None:
         self.key = key
         self.hash = hash(key)
         self.value = value
@@ -7,15 +10,17 @@ class Node:
 
 class Dictionary:
     def __init__(self) -> None:
-        self.length = 0
-        self.capacity = 8
-        self.hash_table = [[] for _ in range(self.capacity)]
-        self.load_factor = 0.75
+        self.length: int = 0
+        self.capacity: int = 8
+        self.load_factor: float = 0.75
+        self.hash_table: List[List[Node]] = [
+            [] for _ in range(self.capacity)
+        ]
 
     def _get_index(self, key_hash: int) -> int:
         return key_hash % self.capacity
 
-    def __setitem__(self, key, value) -> None:
+    def __setitem__(self, key: Any, value: Any) -> None:
         key_hash = hash(key)
         index = self._get_index(key_hash)
         bucket = self.hash_table[index]
@@ -31,7 +36,7 @@ class Dictionary:
         if self.length / self.capacity > self.load_factor:
             self._resize()
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: Any) -> Any:
         key_hash = hash(key)
         index = self._get_index(key_hash)
         bucket = self.hash_table[index]
@@ -42,7 +47,7 @@ class Dictionary:
 
         raise KeyError(f"Key '{key}' not found")
 
-    def __delitem__(self, key) -> None:
+    def __delitem__(self, key: Any) -> None:
         key_hash = hash(key)
         index = self._get_index(key_hash)
         bucket = self.hash_table[index]
